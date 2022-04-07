@@ -90,19 +90,24 @@ function parseHeader(headerReport) {
   return htmlString
 }
 
-function parseTestResults(Report){
+function parseTestResults(report, category){
+  let numberOfItems = report.length
+  let htmlString = ""
+  console.log(numberOfItems
+
+
     // parse Inaplicable Array and generate html elements for each of them
     // then return the html string
-    let htmlString = ""
-    htmlString += `\n<h3>Inapplicable</h3>`
-    inpplicableReport.forEach(element => {
-        htmlString += `\n<div class="individual_test">`
-        for (const property in element) {
-            htmlString += `\n<div id="test-property">${property}: ${element[property]}</div>`
-        }
-        htmlString += `\n</div>`
+    // let htmlString = ""
+    // htmlString += `\n<h3>Inapplicable</h3>`
+    // inpplicableReport.forEach(element => {
+    //     htmlString += `\n<div class="individual_test">`
+    //     for (const property in element) {
+    //         htmlString += `\n<div id="test-property">${property}: ${element[property]}</div>`
+    //     }
+    //     htmlString += `\n</div>`
 
-    });
+    // });
     return htmlString    
 }
 
