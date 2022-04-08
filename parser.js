@@ -189,11 +189,11 @@ function parseTestResults(report, category) {
           element.nodes.forEach(innerElement => {
             // html
             htmlString += `\n<li class="list-group-item">`
-            htmlString += `HTML: ${escapeHtml(innerElement.html)}`
+            htmlString += `HTML: <code>${escapeHtml(innerElement.html)}</code>`
             htmlString += encloseElement('li')
             // target
             htmlString += `\n<li class="list-group-item">`
-            htmlString += `Target: ${innerElement.target.join()}`
+            htmlString += `Target: <code>${innerElement.target.join()}</code>`
             htmlString += encloseElement('li')
           });
         }
