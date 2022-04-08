@@ -19,13 +19,14 @@ fs.readFile(jsonPath, (err,data) => {
     // Parse Json, generate some elements and append to htmlContent
     let headerHtml = parseHeader(objectData[0])
     let passesHtml = parseTestResults(objectData[0].passes, "Passes")
-    // let violationsHtml = parseInapplicable(objectData[0].violations)
+    let violationsHtml = parseTestResults(objectData[0].violations, "Violations")
     // let incompleteHtml = parseInapplicable(objectData[0].incomplete)
     // let inaplicableHtml = parseInapplicable(objectData[0].inapplicable)
     
     // enclose body and html tags before writing into new html file
     htmlContent += headerHtml
     htmlContent += passesHtml
+    htmlContent += violationsHtml
     // htmlContent += passesHtml
     // htmlContent += violationsHtml
     // htmlContent += incompleteHtml

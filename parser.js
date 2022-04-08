@@ -23,6 +23,38 @@ function addLiElement(){
   return `\n<li class="list-group-item d-flex justify-content-between">`
 }
 
+function createLiGroup(property, element){
+  let htmlString = ""
+  console.log(property, element);
+  if(element == null){
+    // just type prop el
+    htmlString += `\n<li class="list-group-item">${property}: ${element}`
+  }
+  else if(property == 'id'){
+    htmlString += `\n<li class="list-group-item list-group-item-primary">${property}: ${element}`
+  }
+  else if (property == 'helpUrl'){
+    htmlString += `\n<li class="list-group-item">${property}: `
+    htmlString += `\n<a href="${element}" target="_blank">Read More</a>`
+  }
+  else if (property == 'tags'){
+    htmlString += `\n<li class="list-group-item">${property}: `
+    element.forEach(element => {
+    htmlString += generateTagBadge(element)
+    });
+  }
+  else {
+    htmlString += `\n<li class="list-group-item">${property}: ${element}`
+  }
+  htmlString += encloseElement('li')
+  return htmlString
+}
+
+function addSpanElement(label, data){
+  return `\n<span class="input-group-text list-group-item-primary" id="basic-addon1">${label}</span>${data}`
+
+}
+
 function encloseElement(type) {
   if (type == 'div') {
     return `</div>`
@@ -37,30 +69,6 @@ function encloseElement(type) {
     return
   }
   
-}
-
-function addSpanElement(label, data){
-  return `\n<span class="input-group-text list-group-item-primary" id="basic-addon1">${label}</span>${data}`
-
-}
-
-function createLiGroup(property, element){
-  let htmlString = ""
-  console.log(property, element);
-  if(property == 'id'){
-    htmlString += `\n<li class="list-group-item list-group-item-primary">${property}: `
-  }
-  else {
-    htmlString += `\n<li class="list-group-item">${property}: `
-  }
-  if (element !== undefined && element.includes('https://')){
-    htmlString += `\n<a href="${element}" target="_blank">Read More</a>`
-  }
-  else{
-    htmlString += element
-  }
-  htmlString += encloseElement('li')
-  return htmlString
 }
 
 function parseHeader(headerReport) {
@@ -170,11 +178,8 @@ function parseTestResults(report, category) {
   htmlString += `\n<div class="row row-cols-4  align-items-start">`
 
   report.forEach(element => {
-    // when col number reaches 4, encloses row
-    // and starts new one, reset col number back to 1
-    console.log(colNumber);
     htmlString += `\n<div class="col mt-3">`
-    htmlString += `<ul class="list-group">`
+    htmlString += `\n<ul class="list-group">`
     for (const property in element) {      
         let escapedValue = escapeDataRecursion(element[property])
         htmlString += createLiGroup(property, escapedValue)
@@ -188,17 +193,26 @@ function parseTestResults(report, category) {
   return htmlString
 }
 
+function generateTagBadge(tag){
+  // generate nice looking tags badges
+  // example here
+  // <span class="badge bg-primary rounded-pill">14</span>
+  return `<span class="badge mr-3 bg-primary rounded-pill">${tag}</span>`
+}
+
 function escapeDataRecursion(data){
-  if (!data){
+  if (data == null){
     return
   }
   else if (data.isArray){
     // is array, more traversing needed
     // console.log(`Data ${data} is an Array`);
+    return data
   }
   else if (typeof(data) === "object"){
     // is Object, more traversing needed
     // console.log(`Data ${data} is an Object`);
+    return data
   }
   else if (typeof(data) === "string"){
     // escape string
