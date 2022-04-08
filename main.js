@@ -9,9 +9,6 @@ let objectData
 fs.readFile(jsonPath, (err,data) => {
     if (err) throw err
     objectData = JSON.parse(data)
-    // let stringifiedData = JSON.stringify(objectData)
-    // let escapedData = escapeHtml(stringifiedData)
-    // let escapedObjectData = JSON.parse(escapedData)
     let date = Date.now()
     // read html from template
     let htmlContent = fs.readFileSync('report-template.html')
@@ -27,8 +24,6 @@ fs.readFile(jsonPath, (err,data) => {
     htmlContent += headerHtml
     htmlContent += passesHtml
     htmlContent += violationsHtml
-    // htmlContent += passesHtml
-    // htmlContent += violationsHtml
     // htmlContent += incompleteHtml
     // htmlContent += inaplicableHtml
     htmlContent+= "\n</body>\n</html>"    

@@ -183,6 +183,10 @@ function parseTestResults(report, category) {
     for (const property in element) {      
         if(property == 'nodes') {
           console.log(element.nodes);
+          htmlString += `\n<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+          Button with data-target
+        </button>`
+          htmlString += `\n<div class="collapse" id="collapse-${element.id}">`
           htmlString += `\n<ul class="list-group">`
           // parse the inner nodes array and list all  html it tested, 
           // targets and impact if the rule failed (null = passed)
@@ -196,6 +200,9 @@ function parseTestResults(report, category) {
             htmlString += `Target: <code>${innerElement.target.join()}</code>`
             htmlString += encloseElement('li')
           });
+          htmlString += encloseElement('ul')
+          htmlString += encloseElement('div')
+
         }
         else {
           let escapedValue = escapeDataRecursion(element[property])
