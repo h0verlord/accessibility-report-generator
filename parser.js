@@ -181,8 +181,26 @@ function parseTestResults(report, category) {
     htmlString += `\n<div class="col mt-3">`
     htmlString += `\n<ul class="list-group">`
     for (const property in element) {      
-        let escapedValue = escapeDataRecursion(element[property])
-        htmlString += createLiGroup(property, escapedValue)
+        if(property == 'nodes') {
+          console.log(element.nodes);
+          htmlString += `\n<ul class="list-group">`
+          // parse the inner nodes array and list all  html it tested, 
+          // targets and impact if the rule failed (null = passed)
+          element.nodes.forEach(innerElement => {
+            // html
+            htmlString += `\n<li class="list-group-item">`
+            htmlString += `HTML: ${escapeHtml(innerElement.html)}`
+            htmlString += encloseElement('li')
+            // target
+            htmlString += `\n<li class="list-group-item">`
+            htmlString += `Target: ${innerElement.target.join()}`
+            htmlString += encloseElement('li')
+          });
+        }
+        else {
+          let escapedValue = escapeDataRecursion(element[property])
+          htmlString += createLiGroup(property, escapedValue)
+        }
       }
     htmlString += encloseElement('ul')
     htmlString += encloseElement('div')
@@ -197,7 +215,7 @@ function generateTagBadge(tag){
   // generate nice looking tags badges
   // example here
   // <span class="badge bg-primary rounded-pill">14</span>
-  return `<span class="badge mr-3 bg-primary rounded-pill">${tag}</span>`
+  return `\n<span class="badge mr-3 bg-primary rounded-pill">${tag}</span>`
 }
 
 function escapeDataRecursion(data){
