@@ -89,10 +89,10 @@ function createModalWindow(element){
   // Create Modal Body
   htmlString += `\n<div class="modal-body">`
   // Traverse and fill in the content from array into list
-  htmlString += `\n<ul class="list-group">`
   // parse the inner nodes array and list all  html it tested, 
   // targets and impact if the rule failed (null = passed)
   element.nodes.forEach(innerElement => {
+    htmlString += `\n<ul class="list-group mt-3">`
     // html
     htmlString += `\n<li class="list-group-item">`
     htmlString += `HTML: <code>${escapeHtml(innerElement.html)}</code>`
@@ -101,8 +101,8 @@ function createModalWindow(element){
     htmlString += `\n<li class="list-group-item">`
     htmlString += `Target: <code>${innerElement.target.join()}</code>`
     htmlString += encloseElement('li')
+    htmlString += encloseElement('ul')
   });
-  htmlString += encloseElement('ul')
   htmlString += encloseElement('div')
   // Create Modal Footer with Close Button
   htmlString += `\n<div class="modal-footer">`
