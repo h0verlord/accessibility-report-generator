@@ -10,25 +10,41 @@ function escapeHtml(unsafe) {
     }
 }
 
-function addHtmlElement(elementType, classes, innerHtml){
+function addHtmlElement(elementType, classes, id, otherAttr, innerHtml) {
     let htmlString = ''
     switch (elementType) {
         case 'div':
-            
+            htmlString += `\n<div`
             break;
         case 'ul':
-            
+            htmlString += `\n<ul`
             break;
         case 'li':
-            
+            htmlString += `\n<li`
             break;
         case 'span':
-            
+            htmlString += `\n<ul`
             break;
-        
         default:
             break;
     }
+    if (classes) {
+        htmlString += `class="${classes}`
+    }
+    if (id) {
+        htmlString += `id="${id}`
+    }
+    if (otherAttr){
+        // TBD: Traverse Array of other attributes one
+        // by one like aria stuff etc
+    }
+    if (innerHtml) {
+        htmlString += `>${innerHtml}`
+    }
+    else{
+        htmlString += `>`
+    }
+    encloseElement(elementType)
     return htmlString
 }
 
@@ -39,20 +55,22 @@ function addLiElement() {
 
 function addSpanElement(label, data) {
     return `\n<span class="input-group-text list-group-item-primary" id="basic-addon1">${label}</span>${data}`
-
 }
 
 function encloseElement(type) {
-    if (type == 'div') {
-        return `</div>`
-    } else if (type == 'li') {
-        return `</li>`
-    } else if (type == 'ul') {
-        return `</ul>`
-    } else {
-        return
+    switch (type) {
+        case 'div':
+            return `</div>`
+        case 'li':
+            return `</li>`
+        case 'ul':
+            return `</ul>`
+        case 'span':
+            return `</span>`
+    
+        default:
+            return
     }
-
 }
 
 function generateTagBadge(tag) {
