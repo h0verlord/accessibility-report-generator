@@ -13,20 +13,15 @@ fs.readFile(jsonPath, (err,data) => {
     // read html from template
     let htmlContent = fs.readFileSync('report-template.html')
     
-    // Parse Json, generate some elements and append to htmlContent
-    let headerHtml = parseHeader(objectData[0])
-    let resultsHtml = parseTestResults(objectData[0])
-    // let passesHtml = parseTestResults(objectData[0].passes, "Passes")
-    // let incompleteHtml = parseInapplicable(objectData[0].incomplete)
-    // let inaplicableHtml = parseInapplicable(objectData[0].inapplicable)
-    
-    // enclose body and html tags before writing into new html file
-    htmlContent += headerHtml
-    htmlContent += resultsHtml
-    // htmlContent += violationsHtml
-    // htmlContent += passesHtml
-    // htmlContent += incompleteHtml
-    // htmlContent += inaplicableHtml
+    for (let index = 0; index < objectData.length; index++) {
+        // Parse Json, generate some elements and append to htmlContent
+        let headerHtml = parseHeader(objectData[index], index)
+        let resultsHtml = parseTestResults(objectData[index], index)
+        // enclose body and html tags before writing into new html file
+        htmlContent += headerHtml
+        htmlContent += resultsHtml
+        
+    }
     htmlContent += `\n<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
     crossorigin="anonymous"></script>`
@@ -36,11 +31,6 @@ fs.readFile(jsonPath, (err,data) => {
     fs.writeFile(`reports/html/example_${date}.html`, htmlContent, (err) => {
         if (err) throw err
     })
-
-    //generate h1 element
-
-    //generate h2 description
-    //generate p element with tags
 })
 
 

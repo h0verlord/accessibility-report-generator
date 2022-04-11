@@ -75,10 +75,10 @@ function createModalWindow(element) {
   return htmlString
 }
 
-function parseHeader(headerReport) {
+function parseHeader(headerReport, index) {
   let htmlString = ""
   // start the html tags for header elements for current test
-  htmlString += `\n<div class="container-fluid">`
+  htmlString += `\n<div class="container-fluid mt-3">`
   htmlString += `\n<div class="row row-cols-1 row-cols-sm-2 mb-3">`
 
   // create elements for first UL
@@ -162,7 +162,7 @@ function parseHeader(headerReport) {
   return htmlString
 }
 
-function parseTestResults(report) {
+function parseTestResults(report, index) {
   // Prepare html string
   let htmlString = ""
   let categories = ['violations', 'passes', 'incomplete', 'inapplicable']
@@ -170,22 +170,22 @@ function parseTestResults(report) {
 
   htmlString += `\n<div class="container-fluid">`
   // create Button group for types
-  htmlString += `<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">`
+  htmlString += `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">`
   // htmlString += addHtmlElement('div', 'container-fluid')
   // htmlString += addHtmlElement('div', 'row mb-3 align-items-start')
   // htmlString += addHtmlElement('div', 'btn-group')
   categories.forEach(category => {
     numberOfItems = report[category].length
     htmlString += `\n<input type="checkbox" class="btn-check" data-bs-toggle="collapse" 
-    data-bs-target="#collapse-${category}" id="${category}" autocomplete="off">`
-    htmlString += `\n<label class="btn btn-outline-primary" for="${category}">${category} (${numberOfItems})</label>`
+    data-bs-target="#collapse-${category}-${index}" id="${index}-${category}" autocomplete="off">`
+    htmlString += `\n<label class="btn btn-outline-primary" for="${index}-${category}">${category} (${numberOfItems})</label>`
   })
   htmlString += encloseElement('div')
 
 
   categories.forEach(category => {
     // start with container tag
-    htmlString += `\n<div class="collapse" id="collapse-${category}">`
+    htmlString += `\n<div class="collapse" id="collapse-${category}-${index}">`
     htmlString += `\n<div class="container-fluid">`
     htmlString += `\n<div class="row mb-3 align-items-start">`
 
@@ -220,6 +220,7 @@ function parseTestResults(report) {
       htmlString += encloseElement('ul')
       htmlString += encloseElement('div')
     })
+    htmlString += encloseElement('div')
     htmlString += encloseElement('div')
     htmlString += encloseElement('div')
     htmlString += encloseElement('div')
