@@ -3,7 +3,9 @@ import {
   addLiElement,
   addSpanElement,
   encloseElement,
-  generateTagBadge
+  generateTagBadge,
+  addHtmlElement,
+  addEnclosedHtmlElement
 } from "./htmlHelpers.js";
 
 function traverseJsonReport(report) {
@@ -42,11 +44,13 @@ function createModalWindow(element) {
   aria-labelledby="exampleModalLabel" aria-hidden="true">`
   // create Modal dialog
   htmlString += `\n<div class="modal-dialog modal-lg">`
+  // htmlString += addHtmlElement('div', 'modal-dialog modal-lg')
   // Create Modal Content div
   htmlString += `\n<div class="modal-content">`
   // Create Modal header with title and Close Btn  
   htmlString += `\n<div class="modal-header">`
-  htmlString += `\n<h5 class="modal-title" id="${element.id}-modal-label">${element.id}</h5>`
+  htmlString += addEnclosedHtmlElement('h5', 'modal-title', element.id, [], element.id)
+  // htmlString += `\n<h5 class="modal-title" id="${element.id}-modal-label">${element.id}</h5>`
   htmlString += `\n<button type="button" class="btn-close" data-bs-dismiss="modal"
   aria-label="Close"></button>`
   htmlString += encloseElement('div')
@@ -56,7 +60,7 @@ function createModalWindow(element) {
   // parse the inner nodes array and list all  html it tested, 
   // targets and impact if the rule failed (null = passed)
   element.nodes.forEach(innerElement => {
-    htmlString += `\n<ul class="list-group mt-3">`
+    htmlString += `\n<ul class="list-group mb-3">`
     // TBD:Switch to a method generating LI element foreach
     // of the element in the inner part.
     htmlString += generateMoreInfoNodes(innerElement)
@@ -67,6 +71,7 @@ function createModalWindow(element) {
   htmlString += `\n<div class="modal-footer">`
   htmlString += `\n<button type="button" class="btn btn-secondary"
   data-bs-dismiss="modal">Close</button>`
+  htmlString += encloseElement('div')
   return htmlString
 }
 
@@ -74,7 +79,7 @@ function parseHeader(headerReport) {
   let htmlString = ""
   // start the html tags for header elements for current test
   htmlString += `\n<div class="container-fluid">`
-  htmlString += `\n<div class="row row-cols-1 row-cols-sm-2 mt-3">`
+  htmlString += `\n<div class="row row-cols-1 row-cols-sm-2 mb-3">`
 
   // create elements for first UL
   htmlString += `<div class="col">`
@@ -161,23 +166,41 @@ function parseTestResults(report) {
   // Prepare html string
   let htmlString = ""
   let categories = ['violations', 'passes', 'incomplete', 'inapplicable']
+  let numberOfItems
+
+  htmlString += `\n<div class="container-fluid">`
+  // create Button group for types
+  htmlString += `<div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">`
+  // htmlString += addHtmlElement('div', 'container-fluid')
+  // htmlString += addHtmlElement('div', 'row mb-3 align-items-start')
+  // htmlString += addHtmlElement('div', 'btn-group')
+  categories.forEach(category => {
+    numberOfItems = report[category].length
+    htmlString += `\n<input type="checkbox" class="btn-check" data-bs-toggle="collapse" 
+    data-bs-target="#collapse-${category}" id="${category}" autocomplete="off">`
+    htmlString += `\n<label class="btn btn-outline-primary" for="${category}">${category} (${numberOfItems})</label>`
+  })
+  htmlString += encloseElement('div')
+
 
   categories.forEach(category => {
-    let numberOfItems = report[category].length
     // start with container tag
+    htmlString += `\n<div class="collapse" id="collapse-${category}">`
     htmlString += `\n<div class="container-fluid">`
-    htmlString += `\n<div class="row mt-3 align-items-start">`
+    htmlString += `\n<div class="row mb-3 align-items-start">`
 
-    htmlString += `\n<h3>${category} - ${numberOfItems}</h3>`
-    htmlString += encloseElement('div')
-    htmlString += encloseElement('div')
+    htmlString += `\n<h3>${category} (${numberOfItems})</h3>`
+    // htmlString += addHtmlElement('div', 'collapse', `collapse-${category}`)
+    // htmlString += addEnclosedHtmlElement('h3', '', '', [], `${category} - ${numberOfItems}`)
+    // htmlString += encloseElement('div')
+    // htmlString += encloseElement('div')
 
     // start div container for results
     htmlString += `\n<div class="container-fluid">`
     htmlString += `\n<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">`
 
     report[category].forEach(element => {
-      htmlString += `\n<div class="col mt-3">`
+      htmlString += `\n<div class="col mb-3">`
       htmlString += `\n<ul class="list-group">`
       for (const property in element) {
         if (property == 'nodes') {
@@ -197,6 +220,8 @@ function parseTestResults(report) {
       htmlString += encloseElement('ul')
       htmlString += encloseElement('div')
     })
+    htmlString += encloseElement('div')
+    htmlString += encloseElement('div')
     htmlString += encloseElement('div')
     htmlString += encloseElement('div')
     htmlString += encloseElement('div')

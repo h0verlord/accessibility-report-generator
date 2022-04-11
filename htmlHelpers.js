@@ -10,7 +10,7 @@ function escapeHtml(unsafe) {
     }
 }
 
-function addHtmlElement(elementType, classes, id, otherAttr, innerHtml) {
+function addHtmlElement(elementType, classes, id = undefined, otherAttr = [], innerHtml = "") {
     let htmlString = ''
     switch (elementType) {
         case 'div':
@@ -25,26 +25,34 @@ function addHtmlElement(elementType, classes, id, otherAttr, innerHtml) {
         case 'span':
             htmlString += `\n<ul`
             break;
+        case 'h5':
+            htmlString += `\n<h5`
+            break;
         default:
             break;
     }
-    if (classes) {
-        htmlString += `class="${classes}`
+    if (classes !== undefined) {
+        htmlString += ` class="${classes}"`
     }
-    if (id) {
-        htmlString += `id="${id}`
+    if (id !== undefined) {
+        htmlString += ` id="${id}"`
     }
-    if (otherAttr){
+    if (otherAttr !== undefined) {
         // TBD: Traverse Array of other attributes one
         // by one like aria stuff etc
     }
-    if (innerHtml) {
+    if (innerHtml !== undefined) {
         htmlString += `>${innerHtml}`
-    }
-    else{
+    } else {
         htmlString += `>`
     }
-    encloseElement(elementType)
+    return htmlString
+}
+
+function addEnclosedHtmlElement(elementType, classes, id, otherAttr, innerHtml) {
+    let htmlString = ""
+    htmlString += addHtmlElement(elementType, classes, id, otherAttr, innerHtml)
+    htmlString += encloseElement(elementType)
     return htmlString
 }
 
@@ -57,19 +65,23 @@ function addSpanElement(label, data) {
     return `\n<span class="input-group-text list-group-item-primary" id="basic-addon1">${label}</span>${data}`
 }
 
-function encloseElement(type) {
-    switch (type) {
-        case 'div':
-            return `</div>`
-        case 'li':
-            return `</li>`
-        case 'ul':
-            return `</ul>`
-        case 'span':
-            return `</span>`
-    
-        default:
-            return
+function encloseElement(type, number = 1) {
+    for (let index = 0; index < number; index++) {
+        switch (type) {
+            case 'div':
+                return `</div>`
+            case 'li':
+                return `</li>`
+            case 'ul':
+                return `</ul>`
+            case 'span':
+                return `</span>`
+            case 'h5':
+                return `</h5>`
+
+            default:
+                return
+        }
     }
 }
 
@@ -86,5 +98,6 @@ export {
     addSpanElement,
     encloseElement,
     generateTagBadge,
-    addHtmlElement
+    addHtmlElement,
+    addEnclosedHtmlElement
 }
