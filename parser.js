@@ -71,11 +71,51 @@ function encloseElement(type) {
   
 }
 
+function createModalWindow(element){
+  let htmlString = ""
+  // Create Outer modal Div
+  htmlString += `\n<div class="modal fade" id="modal-${element.id}" tabindex="-1"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">`
+  // create Modal dialog
+  htmlString += `\n<div class="modal-dialog modal-lg">`
+  // Create Modal Content div
+  htmlString += `\n<div class="modal-content">`
+  // Create Modal header with title and Close Btn  
+  htmlString += `\n<div class="modal-header">`
+  htmlString += `\n<h5 class="modal-title" id="${element.id}-modal-label">${element.id}</h5>`
+  htmlString += `\n<button type="button" class="btn-close" data-bs-dismiss="modal"
+  aria-label="Close"></button>`
+  htmlString += encloseElement('div')
+  // Create Modal Body
+  htmlString += `\n<div class="modal-body">`
+  // Traverse and fill in the content from array into list
+  htmlString += `\n<ul class="list-group">`
+  // parse the inner nodes array and list all  html it tested, 
+  // targets and impact if the rule failed (null = passed)
+  element.nodes.forEach(innerElement => {
+    // html
+    htmlString += `\n<li class="list-group-item">`
+    htmlString += `HTML: <code>${escapeHtml(innerElement.html)}</code>`
+    htmlString += encloseElement('li')
+    // target
+    htmlString += `\n<li class="list-group-item">`
+    htmlString += `Target: <code>${innerElement.target.join()}</code>`
+    htmlString += encloseElement('li')
+  });
+  htmlString += encloseElement('ul')
+  htmlString += encloseElement('div')
+  // Create Modal Footer with Close Button
+  htmlString += `\n<div class="modal-footer">`
+  htmlString += `\n<button type="button" class="btn btn-secondary"
+  data-bs-dismiss="modal">Close</button>`
+  return htmlString
+}
+
 function parseHeader(headerReport) {
   let htmlString = ""
   // start the html tags for header elements for current test
   htmlString += `\n<div class="container-fluid">`
-  htmlString += `\n<div class="row mt-3">`
+  htmlString += `\n<div class="row row-cols-2 mt-3">`
 
   // create elements for first UL
   htmlString += `<div class="col">`
@@ -175,7 +215,7 @@ function parseTestResults(report, category) {
 
   // start div container for results
   htmlString += `\n<div class="container-fluid">`
-  htmlString += `\n<div class="row row-cols-4  align-items-start">`
+  htmlString += `\n<div class="row row-cols-3  align-items-start">`
 
   report.forEach(element => {
     htmlString += `\n<div class="col mt-3">`
@@ -183,26 +223,12 @@ function parseTestResults(report, category) {
     for (const property in element) {      
         if(property == 'nodes') {
           console.log(element.nodes);
-          htmlString += `\n<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-          Button with data-target
-        </button>`
-          htmlString += `\n<div class="collapse" id="collapse-${element.id}">`
-          htmlString += `\n<ul class="list-group">`
-          // parse the inner nodes array and list all  html it tested, 
-          // targets and impact if the rule failed (null = passed)
-          element.nodes.forEach(innerElement => {
-            // html
-            htmlString += `\n<li class="list-group-item">`
-            htmlString += `HTML: <code>${escapeHtml(innerElement.html)}</code>`
-            htmlString += encloseElement('li')
-            // target
-            htmlString += `\n<li class="list-group-item">`
-            htmlString += `Target: <code>${innerElement.target.join()}</code>`
-            htmlString += encloseElement('li')
-          });
-          htmlString += encloseElement('ul')
-          htmlString += encloseElement('div')
-
+          htmlString += `\n<button class="btn btn-primary" type="button" 
+          data-bs-toggle="modal" data-bs-target="#modal-${element.id}" 
+          aria-expanded="false" aria-controls="modal-${element.id}">More Info
+          </button>`
+          // Create a Modal Window with Target and HTML list
+          htmlString += createModalWindow(element)
         }
         else {
           let escapedValue = escapeDataRecursion(element[property])
