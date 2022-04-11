@@ -1,7 +1,7 @@
-import { parseHeader, parseTestResults, escapeHtml } from './parser.js'
+import { parseHeader, parseTestResults } from './parser.js'
 import * as fs from 'fs'
 
-const jsonPath = 'reports/json/axe-results-1649250927112.json'
+const jsonPath = 'reports/json/report.json'
 
 let objectData
 
@@ -15,15 +15,16 @@ fs.readFile(jsonPath, (err,data) => {
     
     // Parse Json, generate some elements and append to htmlContent
     let headerHtml = parseHeader(objectData[0])
-    let passesHtml = parseTestResults(objectData[0].passes, "Passes")
-    let violationsHtml = parseTestResults(objectData[0].violations, "Violations")
+    let resultsHtml = parseTestResults(objectData[0])
+    // let passesHtml = parseTestResults(objectData[0].passes, "Passes")
     // let incompleteHtml = parseInapplicable(objectData[0].incomplete)
     // let inaplicableHtml = parseInapplicable(objectData[0].inapplicable)
     
     // enclose body and html tags before writing into new html file
     htmlContent += headerHtml
-    htmlContent += passesHtml
-    htmlContent += violationsHtml
+    htmlContent += resultsHtml
+    // htmlContent += violationsHtml
+    // htmlContent += passesHtml
     // htmlContent += incompleteHtml
     // htmlContent += inaplicableHtml
     htmlContent += `\n<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
