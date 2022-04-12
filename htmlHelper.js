@@ -22,21 +22,28 @@ class HtmlHelper {
       switch (type) {
         case 'div':
           this.htmlString += `\n</div>`
+          break
         case 'li':
           this.htmlString += `\n</li>`
+          break
         case 'ul':
           this.htmlString += `\n</ul>`
+          break
         case 'span':
-          this.htmlString += `\n</span>`
+          this.htmlString += `</span>`
+          break
         case 'h5':
-          this.htmlString += `\n</h5>`
-
+          this.htmlString += `</h5>`
+          break
+        case 'a':
+          this.htmlString += `</a>`
+          break
         default:
           return
       }
     }
   }
-  addElement(type, classes, id = undefined, otherAttr = []) {
+  addElement(type, classes, innerHtml, id, otherAttr = []) {
     switch (type) {
       case 'div':
         this.htmlString += `\n<div`
@@ -48,34 +55,36 @@ class HtmlHelper {
         this.htmlString += `\n<li`
         break
       case 'span':
-        this.htmlString += `\n<ul`
+        this.htmlString += `\n<span`
         break
       case 'h5':
         this.htmlString += `\n<h5`
         break
+      case 'a':
+        this.htmlString += `\n<a href="${innerHtml}" target="_blank"`
+        break
       default:
         break
     }
-    if (classes !== undefined) {
+    if (classes) {
       this.htmlString += ` class="${classes}"`
     }
-    if (id !== undefined) {
+    if (id) {
       this.htmlString += ` id="${id}"`
     }
-    if (otherAttr !== undefined) {
+    if (otherAttr.length > 0) {
       // TBD: Traverse Array of other attributes one
       // by one like aria stuff etc
     }
-    if (innerHtml !== undefined) {
+    if (innerHtml) {
       this.htmlString += `>${innerHtml}`
     } else {
       this.htmlString += `>`
     }
-    this.htmlString += this.htmlString
   }
-  addEnclosedElement(type, classes, id = undefined, otherAttr = []) {
-    this.addElement(type, classes, id, otherAttr)
-    this.encloseElement()
+  addEnclosedElement(type, classes, innerHtml, id, otherAttr = []) {
+    this.addElement(type, classes, innerHtml, id, otherAttr)
+    this.encloseElement(type)
   }
   encloseHtmlDocument() {
     this.htmlContent += `\n<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"`
