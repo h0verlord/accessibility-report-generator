@@ -1,10 +1,10 @@
 class Parser {
-  constructor(name) {
-    this.name = name
-    this.hello()
+  constructor(jsonObject, htmlString) {
+    this.htmlString = htmlString
+    this.jsonObject = jsonObject
   }
-  hello() {
-    console.log(`Hello method from class parser, ${this.name}`)
+  traverseJsonReport(jsonObject, htmlString) {
+    console.log(jsonObject)
   }
 }
 
