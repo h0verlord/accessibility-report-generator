@@ -219,6 +219,7 @@ function parseTestResults(report, index) {
     htmlString += encloseElement('div')
     // htmlString += encloseElement('div')
   });
+  htmlString += encloseElement('div')
   return htmlString
 }
 
