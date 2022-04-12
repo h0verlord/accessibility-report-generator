@@ -37,10 +37,10 @@ function createRuleReport(property, element) {
   return htmlString
 }
 
-function createModalWindow(element) {
+function createModalWindow(element, index, category) {
   let htmlString = ""
   // Create Outer modal Div
-  htmlString += `\n<div class="modal fade" id="modal-${element.id}" tabindex="-1"
+  htmlString += `\n<div class="modal fade" id="modal-${category}-${element.id}-${index}" tabindex="-1"
   aria-labelledby="exampleModalLabel" aria-hidden="true">`
   // create Modal dialog
   htmlString += `\n<div class="modal-dialog modal-lg">`
@@ -171,9 +171,6 @@ function parseTestResults(report, index) {
   htmlString += `\n<div class="container-fluid">`
   // create Button group for types
   htmlString += `<div class="btn-group mb-3" role="group" aria-label="Basic checkbox toggle button group">`
-  // htmlString += addHtmlElement('div', 'container-fluid')
-  // htmlString += addHtmlElement('div', 'row mb-3 align-items-start')
-  // htmlString += addHtmlElement('div', 'btn-group')
   categories.forEach(category => {
     numberOfItems = report[category].length
     htmlString += `\n<input type="checkbox" class="btn-check" data-bs-toggle="collapse" 
@@ -190,11 +187,6 @@ function parseTestResults(report, index) {
     htmlString += `\n<div class="row mb-3 align-items-start">`
 
     htmlString += `\n<h3>${category} (${numberOfItems})</h3>`
-    // htmlString += addHtmlElement('div', 'collapse', `collapse-${category}`)
-    // htmlString += addEnclosedHtmlElement('h3', '', '', [], `${category} - ${numberOfItems}`)
-    // htmlString += encloseElement('div')
-    // htmlString += encloseElement('div')
-
     // start div container for results
     htmlString += `\n<div class="container-fluid">`
     htmlString += `\n<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">`
@@ -206,11 +198,11 @@ function parseTestResults(report, index) {
         if (property == 'nodes') {
           // console.log(element.nodes);
           htmlString += `\n<button class="btn btn-primary" type="button" 
-            data-bs-toggle="modal" data-bs-target="#modal-${element.id}" 
-            aria-expanded="false" aria-controls="modal-${element.id}">More Info
+            data-bs-toggle="modal" data-bs-target="#modal-${category}-${element.id}-${index}"
+            aria-expanded="false" aria-controls="modal-${category}-${element.id}-${index}">More Info
             </button>`
           // Create a Modal Window with Target and HTML list
-          htmlString += createModalWindow(element)
+          htmlString += createModalWindow(element, index, category)
         } else {
           // create Rule Report Method
           let escapedValue = escapeDataRecursion(element[property])
