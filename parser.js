@@ -179,8 +179,8 @@ function parseTestResults(report, index) {
   })
   htmlString += encloseElement('div')
 
-
   categories.forEach(category => {
+    numberOfItems = report[category].length
     // start with container tag
     htmlString += `\n<div class="collapse" id="collapse-${category}-${index}">`
     htmlString += `\n<div class="container-fluid">`
