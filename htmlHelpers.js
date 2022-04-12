@@ -1,3 +1,4 @@
+
 function escapeHtml(unsafe) {
     if (typeof (unsafe) === null) {
         return
