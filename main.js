@@ -1,15 +1,11 @@
 // import { parseHeader, parseTestResults } from './parser.js'
 import * as fs from 'fs'
 import Parser from './parserClass.js'
-import HtmlHelper from './htmlHelper.js'
 
 const jsonPath = 'reports/json/report.json'
 
 const parser = new Parser()
 // parserHelper.hello()
-
-const html = new HtmlHelper()
-// htmlHelper.escapehtml()
 
 // read json file and save to variable
 fs.readFile(jsonPath, (err, data) => {
@@ -19,17 +15,18 @@ fs.readFile(jsonPath, (err, data) => {
   // read html from template
   let htmlContent = fs.readFileSync('report-template.html')
 
-  for (let index = 0; index < objectData.length; index++) {
-    // Parse Json, generate some elements and append to htmlContent
-  }
-  //   const headerHtml = parseHeader(objectData[index], index)
+  // Parse Json, generate some elements and append to htmlContent
+  // const headerHtml = parseHeader(objectData[index], index)
+  // Create Header for Host
+  htmlContent = parser.traverseJsonReport(objectData, htmlContent)
+  // const reportHeader = parseHeader(objectData[index], index)
   //   const resultsHtml = parseTestResults(objectData[index], index)
   //   // enclose body and html tags before writing into new html file
   //   htmlContent += headerHtml
   //   htmlContent += resultsHtml
   // }
   // Write final HTML into file.
-  fs.writeFile(`reports/html/example_${date}.html`, htmlContent, (err) => {
-    if (err) throw err
-  })
+  // fs.writeFile(`reports/html/example_${date}.html`, htmlContent, (err) => {
+  //   if (err) throw err
+  // })
 })
