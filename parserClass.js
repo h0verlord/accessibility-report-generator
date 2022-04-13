@@ -19,13 +19,43 @@ class Parser {
     this.html.addElement('div', 'col-md-6 col-xxl-3 pt-3 border')
     this.html.addElement('div', 'row row-cols-1')
 
-    this.orderFields(jsonObject)
+    this.generateHeaderForHost(jsonObject)
     // Generate Rules
-    // TBD
+
     // Close all divs For Christ's Sake
     this.html.encloseElement('div', 4)
     // this.filterObjectData(jsonObject)
   }
+
+  generateHeaderForHost(jsonObject) {
+    // traverses given object in a specific order
+    // given by the filter const
+    // filter can later be passed in parameter
+    // and this made a very generic method
+    const filter = [
+      'url',
+      'timestamp',
+      'testEnvironment',
+      'testEngine',
+      'testRunner',
+      'toolOptions',
+    ]
+    filter.forEach((property) => {
+      this.writeTestReportHeader(jsonObject[property], property)
+    })
+  }
+
+  generateCategoriesReport(jsonObject) {
+    // traverses given object in a specific order
+    // given by the filter const
+    // filter can later be passed in parameter
+    const filter = ['violations', 'passes', 'incomplete', 'inapplicable']
+    // and this made a very generic method
+    filter.forEach((category) => {
+      this.writeTestReportCategory(jsonObject[category], category)
+    })
+  }
+
   writeTestReportHeader(jsonObject, property) {
     // Preapre Col and Ul for one header section
     this.html.addElement('div', 'col')
@@ -77,46 +107,6 @@ class Parser {
     this.html.encloseElement('ul')
   }
 
-  orderFields(jsonObject) {
-    // traverses given object in a specific order
-    // given by the filter const
-    // filter can later be passed in parameter
-    // and this made a very generic method
-    const filter = [
-      'url',
-      'timestamp',
-      'testEnvironment',
-      'testEngine',
-      'testRunner',
-      'toolOptions',
-    ]
-    filter.forEach((property) => {
-      this.writeTestReportHeader(jsonObject[property], property)
-    })
-  }
-
-  createHeaderSection(jsonObject) {
-    const headerFields = [
-      'testEngine',
-      'testRunner',
-      'testEnvironment',
-      'timestamp',
-      'url',
-      'toolOptions',
-    ]
-    this.html.addElement('div', 'col-md-6 col-xxl-3 pt-3 border')
-    this.html.addElement('div', 'row row-cols-1')
-    this.writeTestReportHeader(jsonObject, headerFields)
-    this.html.encloseElement('div', 2)
-    // this.html.addEnclosedElement(
-    //   'span',
-    //   'input-group-text list-group-item-primary',
-    //   'Tested URL'
-    // )
-    // this.html.addEnclosedElement('a', undefined, jsonObject.url)
-    // this.html.encloseElement('li')
-    // this.html.encloseElement('ul')
-    // this.html.encloseElement('div', 3)
-  }
+  writeTestReportCategory(jsonObject, category) {}
 }
 export default Parser
