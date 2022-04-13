@@ -60,6 +60,9 @@ class HtmlHelper {
       case 'h5':
         this.htmlString += `\n<h5`
         break
+      case 'p':
+        this.htmlString += `\n<p`
+        break
       case 'a':
         this.htmlString += `\n<a href="${innerHtml}" target="_blank"`
         break
@@ -67,7 +70,13 @@ class HtmlHelper {
         break
     }
     if (classes) {
-      this.htmlString += ` class="${classes}"`
+      this.htmlString += ` class="`
+      if (typeof classes === 'string') {
+        this.htmlString += `${classes}`
+      } else {
+        this.htmlString += `${classes.join(' ')}`
+      }
+      this.htmlString += `"`
     }
     if (id) {
       this.htmlString += ` id="${id}"`
@@ -82,6 +91,11 @@ class HtmlHelper {
       this.htmlString += `>`
     }
   }
+
+  writeInnerHtml(innerHtml) {
+    this.htmlString += `${innerHtml}`
+  }
+
   addEnclosedElement(type, classes, innerHtml, id, otherAttr = []) {
     this.addElement(type, classes, innerHtml, id, otherAttr)
     this.encloseElement(type)
