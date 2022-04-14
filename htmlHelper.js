@@ -6,13 +6,15 @@ class HtmlHelper {
     if (typeof unsafeHtml === null) {
       //  Do nothing
     } else if (typeof unsafeHtml == 'string') {
-      return unsafeHtml
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        // eslint-disable-next-line quotes
-        .replaceAll("'", '&#039;')
+      return (
+        unsafeHtml
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          // eslint-disable-next-line quotes
+          .replaceAll("'", '&#039;')
+      )
     } else {
       return unsafeHtml
     }
@@ -81,7 +83,7 @@ class HtmlHelper {
         this.htmlString += `\n<label`
         break
       case 'a':
-        this.htmlString += `\n<a href="${innerHtml}" target="_blank"`
+        this.htmlString += `\n<a`
         break
       default:
         break
@@ -111,8 +113,22 @@ class HtmlHelper {
   }
 
   writeInnerHtml(innerHtml) {
+    // check if link, if yes, put in <a> tag
     const safeHtml = this.escapehtml(innerHtml)
-    this.htmlString += `${safeHtml}`
+    if (typeof safeHtml == 'string') {
+      if (safeHtml.includes('://')) {
+        const splitUrl = safeHtml.split('/')
+        const domain = splitUrl[2]
+        this.addEnclosedElement('a', undefined, domain, undefined, [
+          `href="${safeHtml}"`,
+          'target="_blank"',
+        ])
+      } else {
+        this.htmlString += `${safeHtml}`
+      }
+    } else {
+      this.htmlString += `${safeHtml}`
+    }
   }
 
   addEnclosedElement(type, classes, innerHtml, id, otherAttr = []) {

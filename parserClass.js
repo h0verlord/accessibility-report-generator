@@ -99,15 +99,7 @@ class Parser {
         'justify-content-between',
       ])
       this.html.addEnclosedElement('span', undefined, property)
-      if (typeof jsonObject == 'string') {
-        if (jsonObject.includes('https://')) {
-          this.html.addEnclosedElement('a', undefined, jsonObject)
-        } else {
-          this.html.writeInnerHtml(jsonObject)
-        }
-      } else {
-        this.html.writeInnerHtml(jsonObject)
-      }
+      this.html.writeInnerHtml(jsonObject)
       this.html.encloseElement('li')
     }
     this.html.encloseElement('div')
@@ -226,8 +218,10 @@ class Parser {
         this.html.addElement(
           'li',
           ['list-group-item'],
-          `${field}: ${this.html.escapehtml(object)}`,
+          // `${field}: ${this.html.escapehtml(object)}`,
         )
+        this.html.addEnclosedElement('span', undefined, `${field}: `)
+        this.html.writeInnerHtml(object)
       }
       this.html.encloseElement('li')
     }
@@ -237,8 +231,12 @@ class Parser {
     // TBD
   }
 
-  writeRuleDetailImpactStyle() {}
+  writeRuleDetailImpactStyle() {
+    // TBD
+  }
 
-  writeRuleDetailTagStyle() {}
+  writeRuleDetailTagStyle() {
+    // TBD
+  }
 }
 export default Parser
