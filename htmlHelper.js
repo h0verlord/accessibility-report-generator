@@ -3,10 +3,10 @@ class HtmlHelper {
     this.htmlString = htmlString
   }
   escapehtml(unsafeHtml) {
-    if (typeof unsafe === null) {
+    if (typeof unsafeHtml === null) {
       //  Do nothing
-    } else if (typeof unsafe === 'string') {
-      this.htmlString += unsafe
+    } else if (typeof unsafeHtml == 'string') {
+      return unsafeHtml
         .replaceAll('&', '&amp;')
         .replaceAll('<', '&lt;')
         .replaceAll('>', '&gt;')
@@ -14,7 +14,7 @@ class HtmlHelper {
         // eslint-disable-next-line quotes
         .replaceAll("'", '&#039;')
     } else {
-      // console.log(`${unsafe} is not a string`);
+      return unsafeHtml
     }
   }
   encloseElement(type, numberOfElements = 1) {
@@ -31,6 +31,9 @@ class HtmlHelper {
           break
         case 'span':
           this.htmlString += `</span>`
+          break
+        case 'h3':
+          this.htmlString += `</h3>`
           break
         case 'h5':
           this.htmlString += `</h5>`
@@ -56,6 +59,9 @@ class HtmlHelper {
         break
       case 'span':
         this.htmlString += `\n<span`
+        break
+      case 'h3':
+        this.htmlString += `\n<h3`
         break
       case 'h5':
         this.htmlString += `\n<h5`
@@ -93,7 +99,8 @@ class HtmlHelper {
   }
 
   writeInnerHtml(innerHtml) {
-    this.htmlString += `${innerHtml}`
+    const safeHtml = this.escapehtml(innerHtml)
+    this.htmlString += `${safeHtml}`
   }
 
   addEnclosedElement(type, classes, innerHtml, id, otherAttr = []) {
