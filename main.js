@@ -1,4 +1,3 @@
-// import { parseHeader, parseTestResults } from './parser.js'
 import * as fs from 'fs'
 import Parser from './parserClass.js'
 

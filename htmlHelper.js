@@ -41,6 +41,11 @@ class HtmlHelper {
         case 'a':
           this.htmlString += `</a>`
           break
+        case 'input':
+          break
+        case 'label':
+          this.htmlString += `</label>`
+          break
         default:
           return
       }
@@ -69,6 +74,12 @@ class HtmlHelper {
       case 'p':
         this.htmlString += `\n<p`
         break
+      case 'input':
+        this.htmlString += `\n<input type="checkbox"`
+        break
+      case 'label':
+        this.htmlString += `\n<label`
+        break
       case 'a':
         this.htmlString += `\n<a href="${innerHtml}" target="_blank"`
         break
@@ -90,6 +101,7 @@ class HtmlHelper {
     if (otherAttr.length > 0) {
       // TBD: Traverse Array of other attributes one
       // by one like aria stuff etc
+      this.htmlString += ` ${otherAttr.join(' ')}`
     }
     if (innerHtml) {
       this.htmlString += `>${innerHtml}`
@@ -108,11 +120,11 @@ class HtmlHelper {
     this.encloseElement(type)
   }
   encloseHtmlDocument() {
-    this.htmlContent += `\n<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"`
+    this.htmlString += `\n<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"`
     // eslint-disable-next-line max-len
-    this.htmlContent += `integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"`
-    this.htmlContent += `crossorigin="anonymous"></script>`
-    this.htmlContent += '\n</body>\n</html>'
+    this.htmlString += `integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"`
+    this.htmlString += `crossorigin="anonymous"></script>`
+    this.htmlString += '\n</body>\n</html>'
   }
 }
 

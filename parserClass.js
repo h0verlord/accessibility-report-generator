@@ -10,6 +10,7 @@ class Parser {
     for (let index = 0; index < this.jsonObject.length; index++) {
       this.parseHostReport(this.jsonObject[index], index)
     }
+    this.html.encloseHtmlDocument()
     return this.html.htmlString
   }
 
@@ -20,7 +21,7 @@ class Parser {
     // write header for current host
     this.generateHeaderForHost(jsonObject)
     // Generate Rules
-    this.generateCategoriesReport(jsonObject, index)
+    this.generateCategoriesForHost(jsonObject, index)
     // Close all divs For Christ's Sake
     this.html.encloseElement('div', 2)
   }
@@ -47,13 +48,15 @@ class Parser {
     this.html.encloseElement('div', 2)
   }
 
-  generateCategoriesReport(jsonObject, index) {
+  generateCategoriesForHost(jsonObject, index) {
     // traverses given object in a specific order
     // given by the filter const
     // filter can later be passed in parameter
     this.html.addElement('div', 'col-md-6 col-xxl-9 pt-3 border')
     const filter = ['violations', 'passes', 'incomplete', 'inapplicable']
     // and this made a very generic method
+    // Generate button group for collapsing categories
+    this.writeTestReportCategoriesButtons(jsonObject, filter, index)
     filter.forEach((category) => {
       this.writeTestReportCategory(jsonObject[category], category, index)
     })
@@ -111,12 +114,49 @@ class Parser {
     this.html.encloseElement('ul')
   }
 
+  writeTestReportCategoriesButtons(jsonObject, categories, index) {
+    this.html.addElement('div', 'row')
+    this.html.addElement('div', 'btn-group', undefined, undefined, [
+      'role="group"',
+      'aria-label="Categories Toggle Button"',
+    ])
+    categories.forEach((category) => {
+      // let checked = ''
+      // // Generate button
+      // if (category == 'violations') {
+      //   checked = ' checked'
+      // }
+      const categoryItems = jsonObject[category].length
+      this.html.addEnclosedElement(
+        'input',
+        'btn-check',
+        undefined,
+        `${category}-${index}`,
+        [
+          'data-bs-toggle="collapse"',
+          `data-bs-target="#collapse-${category}-${index}"`,
+          'autocomplete="off"',
+          // 'aria-expanded="true"',
+          // checked,
+        ],
+      )
+      this.html.addEnclosedElement(
+        'label',
+        'btn btn-outline-primary',
+        `${category} (${categoryItems})`,
+        undefined,
+        [`for="${category}-${index}"`],
+      )
+    })
+    this.html.encloseElement('div', 2)
+  }
+
   writeTestReportCategory(jsonObject, category, index) {
     // Write the collapse wrapper div
     if (category == 'violations') {
       this.html.addElement(
         'div',
-        'collapse-show',
+        'collapse',
         undefined,
         `collapse-${category}-${index}`,
       )
@@ -158,20 +198,16 @@ class Parser {
     this.html.addElement('div', 'col mb-3')
     this.html.addElement('ul', 'list-group')
     orderedRuleFields.forEach((field) => {
-      this.writeTestReportCategoryRuleDetail(
-        object[field],
-        category,
-        field,
-        index,
-      )
+      this.writeTestReportRuleDetail(object[field], category, field, index)
     })
     // generate modal for nodes
     // TBD
     this.html.encloseElement('ul')
     this.html.encloseElement('div')
   }
-  writeTestReportCategoryRuleDetail(object, category, field, index) {
-    // write Lis based on some rules.
+
+  writeTestReportRuleDetail(object, category, field, index) {
+    // write Li elements based on some rules.
     if (object) {
       if (field == 'id') {
         this.html.addElement(
@@ -184,6 +220,8 @@ class Parser {
           ],
           object,
         )
+      } else if (field == 'nodes') {
+        // call modal gen method
       } else {
         this.html.addElement(
           'li',
@@ -194,5 +232,13 @@ class Parser {
       this.html.encloseElement('li')
     }
   }
+
+  writeRuleDetailModal(object, category, field, index) {
+    // TBD
+  }
+
+  writeRuleDetailImpactStyle() {}
+
+  writeRuleDetailTagStyle() {}
 }
 export default Parser
