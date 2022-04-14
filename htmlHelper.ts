@@ -21,7 +21,7 @@ class HtmlHelper {
       return unsafeHtml
     }
   }
-  encloseElement(type, numberOfElements = 1) {
+  encloseElement(type: string, numberOfElements = 1) {
     for (let element = 0; element < numberOfElements; element++) {
       switch (type) {
         case 'div':
@@ -61,7 +61,7 @@ class HtmlHelper {
       }
     }
   }
-  addElement(type: string, classes, innerHtml: string, id: string, otherAttr: []) {
+  addElement(type: string, classes?: string | any[], innerHtml?: string, id?: string, otherAttr?: string[]) {
     switch (type) {
       case 'div':
         this.htmlString += `\n<div`
@@ -145,7 +145,7 @@ class HtmlHelper {
     }
   }
 
-  addEnclosedElement(type, classes, innerHtml, id, otherAttr = []) {
+  addEnclosedElement(type: string, classes?: string, innerHtml?: string, id?: string, otherAttr?: string[]) {
     this.addElement(type, classes, innerHtml, id, otherAttr)
     this.encloseElement(type)
   }

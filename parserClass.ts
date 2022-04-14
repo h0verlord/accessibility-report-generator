@@ -18,7 +18,7 @@ class Parser {
     return this.html.htmlString
   }
 
-  parseHostReport(jsonObject, index) {
+  parseHostReport(jsonObject: object, index: number) {
     // prepare divs for Host section
     this.html.addElement('div', 'container-fluid mt-3')
     this.html.addElement('div', 'row')

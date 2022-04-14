@@ -1,10 +1,17 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ES2015",
+    "esModuleInterop": true,
     "target": "es6",
     "lib": [
       "ES2021.String"
     ]
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "files": [
+    "htmlHelper.ts",
+    "main.ts",
+    "parserClass.ts"
+  ]
+
 }
