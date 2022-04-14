@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es6"
+    "target": "es6",
+    "lib": [
+      "ES2021.String"
+    ]
   },
   "exclude": ["node_modules"]
 }

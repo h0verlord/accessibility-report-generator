@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import Parser from './parserClass.ts'
+import Parser from './parserClass'
 
 const jsonPath = 'reports/json/report.json'
 

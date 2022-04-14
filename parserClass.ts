@@ -1,6 +1,10 @@
-import HtmlHelper from './htmlHelper.ts'
+import HtmlHelper from './htmlHelper'
 class Parser {
-  constructor(jsonObject, htmlString) {
+  htmlString: string
+  jsonObject: []
+  html: HtmlHelper
+
+  constructor(jsonObject: [], htmlString: string) {
     this.htmlString = htmlString
     this.jsonObject = jsonObject
     this.html = new HtmlHelper(htmlString)

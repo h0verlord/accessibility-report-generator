@@ -1,8 +1,10 @@
 class HtmlHelper {
-  constructor(htmlString) {
+  htmlString: string
+
+  constructor(htmlString: string) {
     this.htmlString = htmlString
   }
-  escapehtml(unsafeHtml) {
+  escapehtml(unsafeHtml: string) {
     if (typeof unsafeHtml === null) {
       //  Do nothing
     } else if (typeof unsafeHtml == 'string') {
@@ -59,7 +61,7 @@ class HtmlHelper {
       }
     }
   }
-  addElement(type, classes, innerHtml, id, otherAttr = []) {
+  addElement(type: string, classes, innerHtml: string, id: string, otherAttr: []) {
     switch (type) {
       case 'div':
         this.htmlString += `\n<div`
