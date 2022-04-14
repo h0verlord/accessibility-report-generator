@@ -23,7 +23,7 @@ class Parser {
     // Generate Rules
     this.generateCategoriesForHost(jsonObject, index)
     // Close all divs For Christ's Sake
-    this.html.encloseElement('div', 2)
+    this.html.encloseElement('div', 1)
   }
 
   generateHeaderForHost(jsonObject) {
@@ -185,20 +185,19 @@ class Parser {
       'description',
       'help',
       'helpUrl',
-      // 'nodes',
+      'nodes',
     ]
+    const id = object.id
     this.html.addElement('div', 'col mb-3')
     this.html.addElement('ul', 'list-group')
     orderedRuleFields.forEach((field) => {
-      this.writeTestReportRuleDetail(object[field], category, field, index)
+      this.writeTestReportRuleDetail(object[field], category, field, index, id)
     })
-    // generate modal for nodes
-    // TBD
     this.html.encloseElement('ul')
     this.html.encloseElement('div')
   }
 
-  writeTestReportRuleDetail(object, category, field, index) {
+  writeTestReportRuleDetail(object, category, field, index, id) {
     // write Li elements based on some rules.
     if (object) {
       if (field == 'id') {
@@ -214,12 +213,9 @@ class Parser {
         )
       } else if (field == 'nodes') {
         // call modal gen method
+        this.writeRuleDetailModal(object, category, index, id)
       } else {
-        this.html.addElement(
-          'li',
-          ['list-group-item'],
-          // `${field}: ${this.html.escapehtml(object)}`,
-        )
+        this.html.addElement('li', ['list-group-item'])
         this.html.addEnclosedElement('span', undefined, `${field}: `)
         this.html.writeInnerHtml(object)
       }
@@ -227,16 +223,99 @@ class Parser {
     }
   }
 
-  writeRuleDetailModal(object, category, field, index) {
+  writeRuleDetailModal(object, category, index, id) {
     // TBD
+    // If nodes field is not empty, generate button
+    // and div modal with info.
+    const modalId = `modal-${category}-${id}-${index}`
+    if (object.length > 0) {
+      this.html.addEnclosedElement(
+        'button',
+        'btn btn-primary',
+        'More Info',
+        undefined,
+        [
+          'type="button"',
+          'data-bs-toggle="modal"',
+          `data-bs-target="#${modalId}"`,
+          'aria-expanded="false"',
+          `aria-controls="${modalId}"`,
+        ],
+      )
+      this.html.addElement('div', 'modal fade', undefined, modalId, [
+        'tabindex="-1"',
+        'aria-labelledby="moreInfoRule"',
+        'aria-hidden="true"',
+      ])
+      this.html.addElement('div', 'modal-dialog modal-lg')
+      this.html.addElement('div', 'modal-content')
+      // Modal Header
+      this.html.addElement('div', 'modal-header')
+      this.html.addEnclosedElement('h5', 'modal-title', id, id)
+      this.html.addEnclosedElement(
+        'button',
+        'btn-close',
+        undefined,
+        undefined,
+        ['type="button"', 'data-bs-dismiss="modal"', 'aria-label="Close"'],
+      )
+      this.html.encloseElement('div')
+      // Modal Body
+      this.html.addElement('div', 'modal-body')
+      for (const key in object) {
+        if (Object.hasOwnProperty.call(object, key)) {
+          const separateList = object[key]
+          this.writeModalInnerFields(separateList)
+        }
+      }
+      this.html.encloseElement('div')
+      // Modal Footer
+      this.html.addElement('div', 'modal-footer')
+      this.html.addEnclosedElement(
+        'button',
+        'btn btn-secondary',
+        'Close',
+        undefined,
+        ['type="button"', 'data-bs-dismiss="modal"'],
+      )
+      this.html.encloseElement('div', 4)
+    }
   }
 
-  writeRuleDetailImpactStyle() {
+  writeModalInnerFields(object) {
+    const modalFields = ['impact', 'html', 'target', 'failureSummary']
+    this.html.addElement('ul', 'list-group mb-3')
+    modalFields.forEach((field) => {
+      if (object[field] == null) {
+        // do nothing
+      } else {
+        this.html.addElement('li', 'list-group-item')
+        this.html.writeInnerHtml(`${field}: `)
+        this.generateCodeStyle(object[field])
+        // TBD if Impact, generate colorful style
+        this.html.encloseElement('li')
+      }
+    })
+    this.html.encloseElement('ul')
+  }
+
+  writeImpactStyle() {
     // TBD
   }
 
   writeRuleDetailTagStyle() {
     // TBD
+  }
+
+  generateCodeStyle(codeText) {
+    // TBD
+    // If array, first join with comma
+    // else just escape and return the string.
+    if (Array.isArray(codeText)) {
+      codeText = codeText.join(', ')
+    }
+    const safeHtml = this.html.escapehtml(codeText)
+    this.html.addEnclosedElement('code', undefined, safeHtml)
   }
 }
 export default Parser

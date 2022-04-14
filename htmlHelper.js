@@ -48,6 +48,12 @@ class HtmlHelper {
         case 'label':
           this.htmlString += `</label>`
           break
+        case 'button':
+          this.htmlString += `</button>`
+          break
+        case 'code':
+          this.htmlString += `</code>`
+          break
         default:
           return
       }
@@ -79,11 +85,17 @@ class HtmlHelper {
       case 'input':
         this.htmlString += `\n<input type="checkbox"`
         break
+      case 'button':
+        this.htmlString += `\n<button`
+        break
       case 'label':
         this.htmlString += `\n<label`
         break
       case 'a':
         this.htmlString += `\n<a`
+        break
+      case 'code':
+        this.htmlString += `\n<code`
         break
       default:
         break
