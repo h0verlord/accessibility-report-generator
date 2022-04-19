@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-import Parser from './parserClass.js'
+import Parser from './parser.js'
 
 const jsonPath = process.env.reportJsonPath
 
