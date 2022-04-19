@@ -10,7 +10,9 @@ fs.readFile(jsonPath, (err, data) => {
   const date = Date.now()
 
   // read html from template
-  const htmlContent = fs.readFileSync('./reports/html/report-template.html').toString()
+  const htmlContent = fs
+    .readFileSync('./reports/html/report-template.html')
+    .toString()
   const parser = new Parser(objectData, htmlContent)
 
   // Parse Json, generate some elements and append to htmlContent

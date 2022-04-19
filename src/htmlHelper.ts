@@ -61,7 +61,13 @@ class HtmlHelper {
       }
     }
   }
-  addElement(type: string, classes?: string | any[], innerHtml?: string, id?: string, otherAttr?: string[]) {
+  addElement(
+    type: string,
+    classes?: string | any[],
+    innerHtml?: string,
+    id?: string,
+    otherAttr?: string[],
+  ) {
     switch (type) {
       case 'div':
         this.htmlString += `\n<div`
@@ -145,7 +151,13 @@ class HtmlHelper {
     }
   }
 
-  addEnclosedElement(type: string, classes?: string, innerHtml?: string, id?: string, otherAttr?: string[]) {
+  addEnclosedElement(
+    type: string,
+    classes?: string,
+    innerHtml?: string,
+    id?: string,
+    otherAttr?: string[],
+  ) {
     this.addElement(type, classes, innerHtml, id, otherAttr)
     this.encloseElement(type)
   }
@@ -160,3 +172,4 @@ class HtmlHelper {
 }
 
 export default HtmlHelper
+
