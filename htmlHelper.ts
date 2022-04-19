@@ -126,7 +126,7 @@ class HtmlHelper {
     }
   }
 
-  writeInnerHtml(innerHtml) {
+  writeInnerHtml(innerHtml: string) {
     // check if link, if yes, put in <a> tag
     const safeHtml = this.escapehtml(innerHtml)
     if (typeof safeHtml == 'string') {
@@ -149,6 +149,7 @@ class HtmlHelper {
     this.addElement(type, classes, innerHtml, id, otherAttr)
     this.encloseElement(type)
   }
+  
   encloseHtmlDocument() {
     this.htmlString += `\n<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"`
     // eslint-disable-next-line max-len

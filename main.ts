@@ -1,12 +1,12 @@
 import * as fs from 'fs'
-import Parser from './parserClass'
+import Parser from './parserClass.js'
 
 const jsonPath = 'reports/json/report.json'
 
 // read json file
 fs.readFile(jsonPath, (err, data) => {
   if (err) throw err
-  const objectData = JSON.parse(data)
+  let objectData = JSON.parse(data.toString())
   const date = Date.now()
 
   // read html from template

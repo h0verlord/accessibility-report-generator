@@ -1,17 +1,12 @@
 {
   "compilerOptions": {
-    "module": "ES2015",
+    "module": "ES6",
     "esModuleInterop": true,
-    "target": "es6",
-    "lib": [
-      "ES2021.String"
-    ]
+    // "target": "es6",
+    "lib": ["ES2021.String"],
+    "sourceMap": true
   },
   "exclude": ["node_modules"],
-  "files": [
-    "htmlHelper.ts",
-    "main.ts",
-    "parserClass.ts"
-  ]
-
+  // "files": ["htmlHelper.ts", "main.ts", "parserClass.ts"],
+  "compileOnSave": true
 }

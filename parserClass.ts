@@ -1,5 +1,5 @@
-import HtmlHelper from './htmlHelper'
-class Parser {
+import HtmlHelper from './htmlHelper.js'
+export default class Parser {
   htmlString: string
   jsonObject: []
   html: HtmlHelper
@@ -30,7 +30,7 @@ class Parser {
     this.html.encloseElement('div', 1)
   }
 
-  generateHeaderForHost(jsonObject) {
+  generateHeaderForHost(jsonObject: object) {
     // traverses given object in a specific order
     // given by the filter const
     // filter can later be passed in parameter
@@ -322,4 +322,3 @@ class Parser {
     this.html.addEnclosedElement('code', undefined, safeHtml)
   }
 }
-export default Parser
