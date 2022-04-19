@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "ES6",
+    "esModuleInterop": true,
+    "target": "es6",
+    "lib": ["ES2021.String"],
+    "sourceMap": true,
+    "allowJs": true,
+    "outDir": "./built",
+    "moduleResolution": "Node"
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules"],
+  // "files": ["htmlHelper.ts", "main.ts", "parserClass.ts"],
+  "compileOnSave": true
+}

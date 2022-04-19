@@ -1,16 +1,18 @@
 import * as fs from 'fs'
 import Parser from './parserClass.js'
 
-const jsonPath = 'reports/json/report.json'
+const jsonPath = process.env.reportJsonPath
 
 // read json file
 fs.readFile(jsonPath, (err, data) => {
   if (err) throw err
-  const objectData = JSON.parse(data)
+  let objectData = JSON.parse(data.toString())
   const date = Date.now()
 
   // read html from template
-  const htmlContent = fs.readFileSync('report-template.html').toString()
+  const htmlContent = fs
+    .readFileSync('./reports/html/report-template.html')
+    .toString()
   const parser = new Parser(objectData, htmlContent)
 
   // Parse Json, generate some elements and append to htmlContent
@@ -20,3 +22,4 @@ fs.readFile(jsonPath, (err, data) => {
     if (err) throw err
   })
 })
+

@@ -1,8 +1,10 @@
 class HtmlHelper {
-  constructor(htmlString) {
+  htmlString: string
+
+  constructor(htmlString: string) {
     this.htmlString = htmlString
   }
-  escapehtml(unsafeHtml) {
+  escapehtml(unsafeHtml: string) {
     if (typeof unsafeHtml === null) {
       //  Do nothing
     } else if (typeof unsafeHtml == 'string') {
@@ -19,7 +21,7 @@ class HtmlHelper {
       return unsafeHtml
     }
   }
-  encloseElement(type, numberOfElements = 1) {
+  encloseElement(type: string, numberOfElements = 1) {
     for (let element = 0; element < numberOfElements; element++) {
       switch (type) {
         case 'div':
@@ -59,7 +61,13 @@ class HtmlHelper {
       }
     }
   }
-  addElement(type, classes, innerHtml, id, otherAttr = []) {
+  addElement(
+    type: string,
+    classes?: string | any[],
+    innerHtml?: string,
+    id?: string,
+    otherAttr?: string[],
+  ) {
     switch (type) {
       case 'div':
         this.htmlString += `\n<div`
@@ -112,7 +120,7 @@ class HtmlHelper {
     if (id) {
       this.htmlString += ` id="${id}"`
     }
-    if (otherAttr.length > 0) {
+    if (otherAttr && otherAttr.length > 0) {
       // TBD: Traverse Array of other attributes one
       // by one like aria stuff etc
       this.htmlString += ` ${otherAttr.join(' ')}`
@@ -124,7 +132,7 @@ class HtmlHelper {
     }
   }
 
-  writeInnerHtml(innerHtml) {
+  writeInnerHtml(innerHtml: string) {
     // check if link, if yes, put in <a> tag
     const safeHtml = this.escapehtml(innerHtml)
     if (typeof safeHtml == 'string') {
@@ -143,10 +151,17 @@ class HtmlHelper {
     }
   }
 
-  addEnclosedElement(type, classes, innerHtml, id, otherAttr = []) {
+  addEnclosedElement(
+    type: string,
+    classes?: string,
+    innerHtml?: string,
+    id?: string,
+    otherAttr?: string[],
+  ) {
     this.addElement(type, classes, innerHtml, id, otherAttr)
     this.encloseElement(type)
   }
+
   encloseHtmlDocument() {
     this.htmlString += `\n<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"`
     // eslint-disable-next-line max-len
@@ -157,3 +172,4 @@ class HtmlHelper {
 }
 
 export default HtmlHelper
+
