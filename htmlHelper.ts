@@ -114,7 +114,7 @@ class HtmlHelper {
     if (id) {
       this.htmlString += ` id="${id}"`
     }
-    if (otherAttr.length > 0) {
+    if (otherAttr && otherAttr.length > 0) {
       // TBD: Traverse Array of other attributes one
       // by one like aria stuff etc
       this.htmlString += ` ${otherAttr.join(' ')}`
@@ -149,7 +149,7 @@ class HtmlHelper {
     this.addElement(type, classes, innerHtml, id, otherAttr)
     this.encloseElement(type)
   }
-  
+
   encloseHtmlDocument() {
     this.htmlString += `\n<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"`
     // eslint-disable-next-line max-len

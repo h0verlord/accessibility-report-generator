@@ -1,5 +1,5 @@
 import HtmlHelper from './htmlHelper.js'
-export default class Parser {
+class Parser {
   htmlString: string
   jsonObject: []
   html: HtmlHelper
@@ -322,3 +322,4 @@ export default class Parser {
     this.html.addEnclosedElement('code', undefined, safeHtml)
   }
 }
+export default Parser

@@ -114,7 +114,7 @@ var HtmlHelper = /** @class */ (function () {
         if (id) {
             this.htmlString += " id=\"".concat(id, "\"");
         }
-        if (otherAttr.length > 0) {
+        if (otherAttr && otherAttr.length > 0) {
             // TBD: Traverse Array of other attributes one
             // by one like aria stuff etc
             this.htmlString += " ".concat(otherAttr.join(' '));
