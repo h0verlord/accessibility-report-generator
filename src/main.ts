@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import Parser from './parserClass.js'
 
-const jsonPath = './reports/json/report.json'
+const jsonPath = process.env.reportJsonPath
 
 // read json file
 fs.readFile(jsonPath, (err, data) => {

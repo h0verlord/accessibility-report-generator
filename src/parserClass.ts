@@ -47,12 +47,12 @@ class Parser {
       'toolOptions',
     ]
     filter.forEach((property) => {
-      this.writeTestReportHeader(jsonObject[property], property)
+      this.writeTestReportHeader(property, jsonObject[property])
     })
     this.html.encloseElement('div', 2)
   }
 
-  generateCategoriesForHost(jsonObject, index) {
+  generateCategoriesForHost(jsonObject: object, index: number) {
     // traverses given object in a specific order
     // given by the filter const
     // filter can later be passed in parameter
@@ -67,7 +67,7 @@ class Parser {
     this.html.encloseElement('div', 2)
   }
 
-  writeTestReportHeader(jsonObject, property) {
+  writeTestReportHeader(headerProperty: string, headerValue: string | object) {
     // Preapre Col and Ul for one header section
     this.html.addElement('div', 'col')
     this.html.addElement('ul', 'list-group mb-3')
@@ -78,13 +78,13 @@ class Parser {
       'd-flex',
       'justify-content-between',
     ])
-    this.html.addEnclosedElement('span', undefined, property)
+    this.html.addEnclosedElement('span', undefined, headerProperty)
     this.html.encloseElement('li')
     // If field exists
-    if (typeof jsonObject == 'object') {
-      for (const key in jsonObject) {
-        if (Object.hasOwnProperty.call(jsonObject, key)) {
-          const element = jsonObject[key]
+    if (typeof headerValue == 'object') {
+      for (const key in headerValue) {
+        if (Object.hasOwnProperty.call(headerValue, key)) {
+          const element = headerValue[key]
           // generate Li elements for each key:value pairs
           this.html.addElement('li', [
             'list-group-item',
@@ -102,15 +102,19 @@ class Parser {
         'd-flex',
         'justify-content-between',
       ])
-      this.html.addEnclosedElement('span', undefined, property)
-      this.html.writeInnerHtml(jsonObject)
+      this.html.addEnclosedElement('span', undefined, headerProperty)
+      this.html.writeInnerHtml(headerValue)
       this.html.encloseElement('li')
     }
     this.html.encloseElement('div')
     this.html.encloseElement('ul')
   }
 
-  writeTestReportCategoriesButtons(jsonObject, categories, index) {
+  writeTestReportCategoriesButtons(
+    jsonObject: object,
+    categories: string[],
+    index: any,
+  ) {
     this.html.addElement('div', 'row')
     this.html.addElement('div', 'btn-group', undefined, undefined, [
       'role="group"',
@@ -147,7 +151,11 @@ class Parser {
     this.html.encloseElement('div', 2)
   }
 
-  writeTestReportCategory(jsonObject, category, index) {
+  writeTestReportCategory(
+    rulesReport: {}[],
+    category: string,
+    index: number,
+  ) {
     // Write the collapse wrapper div
     if (category == 'violations') {
       this.html.addElement(
@@ -168,13 +176,13 @@ class Parser {
     this.html.addEnclosedElement(
       'h3',
       undefined,
-      `${category} (${jsonObject.length})`,
+      `${category} (${rulesReport.length})`,
     )
     this.html.encloseElement('div')
     this.html.addElement('div', 'row row-cols-1 row-cols-xl-2 row-cols-xxl-3')
-    for (const key in jsonObject) {
-      if (Object.hasOwnProperty.call(jsonObject, key)) {
-        const element = jsonObject[key]
+    for (const key in rulesReport) {
+      if (Object.hasOwnProperty.call(rulesReport, key)) {
+        const element = rulesReport[key]
         this.writeTestReportCategoryRules(element, category, index)
       }
     }
@@ -323,3 +331,4 @@ class Parser {
   }
 }
 export default Parser
+

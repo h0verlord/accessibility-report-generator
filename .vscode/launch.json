@@ -11,7 +11,10 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}\\built\\main.js"
+      "program": "${workspaceFolder}\\built\\main.js",
+      "env": {
+        "reportJsonPath":"./reports/json/report.json"
+      }
     }
-  ]
+  ],
 }
